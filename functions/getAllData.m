@@ -12,50 +12,68 @@ function dataComb = getAllData(myDataPath, dataFileNames)
 % - dataComb: table containing all data combined
 
 
-
-% Import epi data on COVID cases, hosp. admissions and deaths
+% File name for epi data
 fName = myDataPath + dataFileNames.epiDataFname;
-epiData = importEpiData(fName);
 
 
-% Create new fields for total daily cases and deaths
-epiData.nCasesData = sum(epiData.nCases_O + epiData.nCases_M + epiData.nCases_P + epiData.nCases_A, 2);
-epiData.nHospData = sum(epiData.nHosp_O + epiData.nHosp_M + epiData.nHosp_P + epiData.nHosp_A, 2);
-epiData.nDeathsData = sum(epiData.nDeaths_O + epiData.nDeaths_M + epiData.nDeaths_P + epiData.nDeaths_A, 2);
+% Import epi data on COVID cases, hosp. admissions and deaths (if it
+% exists, if not display a warning message
+if exist(fName, 'file')
+    % Call epi data file import function
+    epiData = importEpiData(fName);
+            
+    % Create new fields for total daily cases and deaths
+    epiData.nCasesData = sum(epiData.nCases_O + epiData.nCases_M + epiData.nCases_P + epiData.nCases_A, 2);
+    epiData.nHospData = sum(epiData.nHosp_O + epiData.nHosp_M + epiData.nHosp_P + epiData.nHosp_A, 2);
+    epiData.nDeathsData = sum(epiData.nDeaths_O + epiData.nDeaths_M + epiData.nDeaths_P + epiData.nDeaths_A, 2);
+    
+    % By ethnicity
+    epiData.nCases_O_overall = sum(epiData.nCases_O, 2);
+    epiData.nCases_M_overall = sum(epiData.nCases_M, 2);
+    epiData.nCases_P_overall = sum(epiData.nCases_P, 2);
+    epiData.nCases_A_overall = sum(epiData.nCases_A, 2);
+    epiData.nHosp_O_overall = sum(epiData.nHosp_O, 2);
+    epiData.nHosp_M_overall = sum(epiData.nHosp_M, 2);
+    epiData.nHosp_P_overall = sum(epiData.nHosp_P, 2);
+    epiData.nHosp_A_overall = sum(epiData.nHosp_A, 2);
+    epiData.nDeaths_O_overall = sum(epiData.nDeaths_O, 2);
+    epiData.nDeaths_M_overall = sum(epiData.nDeaths_M, 2);
+    epiData.nDeaths_P_overall = sum(epiData.nDeaths_P, 2);
+    epiData.nDeaths_A_overall = sum(epiData.nDeaths_A, 2);
 
-% By ethnicity
-epiData.nCases_O_overall = sum(epiData.nCases_O, 2);
-epiData.nCases_M_overall = sum(epiData.nCases_M, 2);
-epiData.nCases_P_overall = sum(epiData.nCases_P, 2);
-epiData.nCases_A_overall = sum(epiData.nCases_A, 2);
-epiData.nHosp_O_overall = sum(epiData.nHosp_O, 2);
-epiData.nHosp_M_overall = sum(epiData.nHosp_M, 2);
-epiData.nHosp_P_overall = sum(epiData.nHosp_P, 2);
-epiData.nHosp_A_overall = sum(epiData.nHosp_A, 2);
-epiData.nDeaths_O_overall = sum(epiData.nDeaths_O, 2);
-epiData.nDeaths_M_overall = sum(epiData.nDeaths_M, 2);
-epiData.nDeaths_P_overall = sum(epiData.nDeaths_P, 2);
-epiData.nDeaths_A_overall = sum(epiData.nDeaths_A, 2);
+    
+    
+    % Importing data on hospital occupancy
+    fName = myDataPath + dataFileNames.hospOccFname;
+    hospData = readtable(fName, "Sheet", "NZ total");
+    hospData.Properties.VariableNames = ["date", "hospOccTotalMOH"];
+    hospData = hospData(datenum(hospData.date) >= datenum('25JAN2022'), :);
+    hospData.hospOccTotalMOH = str2double(hospData.hospOccTotalMOH);
+    
+    % Importing data on incidence in border workers
+    fName = myDataPath + dataFileNames.borderIncFname;
+    borderData = readtable(fName);
+    borderData.WeekEnding = datetime(string(borderData.WeekEnding));
+    borderData = borderData(~isnat(borderData.WeekEnding), :);
+    borderData.date = borderData.WeekEnding-7;          % Tests week ending X roughly indicative of new infections around X-7
+    
+    % Merge into one table
+    tmp = outerjoin(epiData, hospData, 'Keys', 'date', 'MergeKeys', true);
+    dataComb = outerjoin(tmp, borderData, 'Keys', 'date', 'MergeKeys', true);
 
-% Importing data on hospital occupancy
-fName = myDataPath + dataFileNames.hospOccFname;
-hospData = readtable(fName, "Sheet", "NZ total");
-hospData.Properties.VariableNames = ["date", "hospOccTotalMOH"];
-hospData = hospData(datenum(hospData.date) >= datenum('25JAN2022'), :);
-hospData.hospOccTotalMOH = str2double(hospData.hospOccTotalMOH);
-
-% Importing data on incidence in border workers
-fName = myDataPath + dataFileNames.borderIncFname;
-borderData = readtable(fName);
-borderData.WeekEnding = datetime(string(borderData.WeekEnding));
-borderData = borderData(~isnat(borderData.WeekEnding), :);
-borderData.date = borderData.WeekEnding-7;          % Tests week ending X roughly indicative of new infections around X-7
-
-% Merge into one table
-tmp = outerjoin(epiData, hospData, 'Keys', 'date', 'MergeKeys', true);
-dataComb = outerjoin(tmp, borderData, 'Keys', 'date', 'MergeKeys', true);
-
-
+else
+    dataComb = [];
+    % Display warning message
+    fprintf('===========================================================================================================\n')
+    fprintf('Warning cannot find epidemiological data file ''%s''\n', fName)
+    fprintf('Will proceed to plot model outputs without epi data\n\n')
+    fprintf('If you are a reviewer of the article, this file should be available to you via the journal submission system.\n')
+    fprintf('Please download it and save at the location displayed above.\n\n')
+    fprintf('If you are an interested researcher, you can request this data from Te Whatu Ora | Healh New Zealand at:\n')
+    fprintf('NPHSSurveillance-Intelligence@TeWhatuOra.govt.nz\n')
+    fprintf('===========================================================================================================\n\n')
+    
+end
 
 end
 

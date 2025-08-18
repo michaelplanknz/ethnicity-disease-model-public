@@ -30,7 +30,7 @@ The model reads in data from the following files in the `data/` folder.
 
 |Filename|Description|
 |--------------------|-----|
-|*epiData.csv*| Data on the daily number of reported Covid-19 cases, new Covid-19 hospital admissions and Covid-19-attributed deaths on each date, stratified by 5-year age group and ethnicity. 
+|*epiData.csv*| Data on the daily number of reported Covid-19 cases, new Covid-19 hospital admissions and Covid-19-attributed deaths on each date, stratified by 5-year age group and ethnicity. Note: this dataset cannot be published due for confidentiality reasons and can be requested from Te Whatu Ora Health New Zealand at: NPHSSurveillance-Intelligence@TeWhatuOra.govt.nz |
 |*vaccine_data_national_[YYYY-MM-DD].csv*| Cumulative total number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by date and 5-year age band, as at date YYYY-MM-DD. |
 |*vaccine_data_[ETHNICITY]_[YYYY-MM-DD].csv*| Cumulative number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by date and 5-year age band for people in the given ETHNICITY group, either Māori, Pacific, Asian or European/other, as at date YYYY-MM-DD. |
 |*therapeutics_by_age_[DD-MMM-YYYY].mat*| Ministry of Health data for the number of cases with an antiviral prescription in 5-year age groups over time, as at date DD-MMM-YYYY. |

@@ -1,4 +1,4 @@
-# Improving models for pandemic preparedness and response: modelling differences in infectious disease dynamics and impact by ethnicity
+# Modelling the transmission and impact of Omicron variants of Covid-19 in different ethnicity groups in Aotearoa New Zealand
 
 # 1. Overview
 

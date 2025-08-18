@@ -77,7 +77,7 @@ The second of these files contains outputs from a set of model trajectories, rep
 
 # 4. How to make the plots
 
-Run the top-level script `makePlots.m`.
+Run the top-level script `plotGraphs.m`.
 
 This reads in the results generated in the previous step from the `output/` folder, makes a selection of plots, and saves them in the `figures/` folder.
 

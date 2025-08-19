@@ -66,9 +66,7 @@ else
     % Display warning message
     fprintf('===========================================================================================================\n')
     fprintf('Warning cannot find epidemiological data file ''%s''\n\n', fName)
-    fprintf('If you are a reviewer of the article, this file should be available to you via the journal submission system.\n')
-    fprintf('Please download it and save at the location displayed above.\n\n')
-    fprintf('If you are an interested researcher, you can request this data from Te Whatu Ora | Healh New Zealand at:\n')
+    fprintf('You can request this data from Te Whatu Ora | Healh New Zealand at:\n')
     fprintf('NPHSSurveillance-Intelligence@TeWhatuOra.govt.nz\n\n')
     fprintf('Proceeding to plot model outputs without epi data\n')
     fprintf('===========================================================================================================\n\n')

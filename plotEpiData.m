@@ -99,8 +99,7 @@ else
     % Display warning message
     fprintf('===========================================================================================================\n')
     fprintf('Warning cannot find epidemiological data file ''%s''\n\n', fName)
-    fprintf('You can request this data from Te Whatu Ora | Healh New Zealand at:\n')
-    fprintf('NPHSSurveillance-Intelligence@TeWhatuOra.govt.nz\n')
+    fprintf('You can request this data from Te Whatu Ora | Healh New Zealand at: data-enquiries@tewhatuora.govt.nz\n')
     fprintf('===========================================================================================================\n\n')
 end
 

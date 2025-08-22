@@ -8,7 +8,7 @@ The model and code build on earlier work modelling Covid-19 in New Zealand that 
 
 The key advance in the current work is to stratify the population into four ethnicity groups and model different levels of disease transmission and impact across those groups.
 
-A preprint of the article is available here.
+A preprint of the article is available [here](https://arxiv.org/abs/2508.15077).
 
 
 Results in this version were produced using the version of this repo tagged 'v1.0'.

@@ -72,6 +72,46 @@ else % multiple ethnicities
     contactMatrix = (1-assort)*contactMatrix_PM + assort*contactMatrix_SM;
 
 
+% Code to visualise the contact matrrix for this run
+    xt = 8+(0:16:48);
+    ethNames = ["Euro/other", "Māori", "Pacific", "Asian"];
+
+    h = figure(100);
+    h.Position = [  35         480        1125         420];
+    tiledlayout(1, 2, "TileSpacing", "compact");
+    nexttile;
+    imagesc(contactMatrix_PM);
+    colormap(flipud(hot));
+    colorbar;
+    clim([0 14]);
+    h = gca;
+    h.XTick = xt;
+    h.XTickLabel = ethNames;
+    h.YTick = xt;
+    h.YTickLabel = ethNames;
+    title('(a) proportionate mixing')
+    nexttile;
+    imagesc(contactMatrix_SM);
+    colormap(flipud(hot));
+    colorbar;
+    clim([0 14]);
+    h = gca;
+    h.XTick = xt;
+    h.XTickLabel = ethNames;
+    h.YTick = xt;
+    h.YTickLabel = ethNames;
+    title('(b) within-group mixing')
+
+    figure(101);
+    imagesc(contactMatrix);
+    colormap(flipud(hot));
+    colorbar;
+    h = gca;
+    h.XTick = xt;
+    h.XTickLabel = ethNames;
+    h.YTick = xt;
+    h.YTickLabel = ethNames;
+    pause
 end
 
 end

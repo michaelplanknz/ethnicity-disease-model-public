@@ -12,6 +12,7 @@ A preprint of the article is available [here](https://arxiv.org/abs/2508.15077).
 
 
 Results in this version were produced using the version of this repo tagged 'v1.0'.
+
 The code was run using Matlab version 2022b.
 
 
@@ -86,6 +87,10 @@ Other graph-plotting scripts that can be run are:
 * plotVaccineData.m - plots the cumulative number of vaccine doses by age and ethicity group.
 
 Both of these scripts read the relevant data files in from the `data/` folder.
+
+To create the contact matrices plot, run `plotContactMatrices.m`.
+
+To produce the table of posterior statistics for fitted paramreters, run `getPosteriorStats.m`.
 
 
 

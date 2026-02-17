@@ -22,7 +22,10 @@ nScenarios = numel(scenario_names);
 nEthnicities = numel(ethnicity_names);
 
 
-% ------------------------------ PLOT ------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rescale data to per 100k if perCapita == true
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if perCapita == true
     plotTitle = 'Cumulative numbers (per 100,000)';
@@ -52,6 +55,37 @@ else
     plotTitle = 'Cumulative numbers (total)';
     subplotYaxis = {'infections', 'cases', 'admissions', 'deaths'};
 end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make table of relative errors in cumulative results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Get relevant data (1:4 is cases, 5:8 is admissions, 9:12 is deaths)
+admByEthData = cumData(5:8)';
+deathsByEthData = cumData(9:12)';
+relErrAdm = zeros(nScenarios, 1);
+relErrDeaths = zeros(nScenarios, 1);
+% Calculate relative errors for each scenario
+for iScenario = 1:nScenarios
+    admByEthModel = outTab.cumAdmissionsMedian(contains(outTab.scenario, string(iScenario)), :);
+    deathsByEthModel = outTab.cumDeathsMedian(contains(outTab.scenario, string(iScenario)), :);
+    relErrAdm(iScenario) = sum(abs(admByEthModel-admByEthData)./abs(admByEthData));
+    relErrDeaths(iScenario) = sum(abs(deathsByEthModel-deathsByEthData)./abs(deathsByEthData));
+end
+% Put results in a tbale
+tbl = table(scenario_names, relErrAdm, relErrDeaths);
+tbl = renamevars(tbl, {'scenario_names'}, {'Scenario'});
+
+% Save table if it doesn't already exist or if overwrite flag is on
+fName = append(figDir, "error_table.csv");
+if exist(fName, 'file') == 0 || overwriteFig
+    writetable(tbl, fName);
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make plots
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 age_groups = {'0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70+'};
 subplotTitles = {'(a) Infections', '(b) Cases', '(c) Admissions', '(d) Deaths'};

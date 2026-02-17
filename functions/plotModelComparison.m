@@ -21,6 +21,7 @@ function plotModelComparison(t, bandsData, bestFitData, tData, realData, ...
 % Subset of scenarios to plot in the next graph (make this 1:nScenarios to
 % plot all of them)
 scenariosToPlot = [1, 4, 5];
+colIndex = [1, 3, 4];
 
 % Collapse by age and ethnicity
 
@@ -76,9 +77,9 @@ for i = 1:length(indsToPlot)
     hold on
     for j = 1:length(scenariosToPlot)
         kScenario = scenariosToPlot(j);
-        plot(t, min(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(kScenario, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
-        plot(t, max(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(kScenario, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
-        plot(t, bestFitData(:, indsToPlot(i), kScenario), 'Color', line_colours(kScenario, :), 'LineWidth', 2)
+        plot(t, min(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+        plot(t, max(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+        plot(t, bestFitData(:, indsToPlot(i), kScenario), 'Color', line_colours(colIndex(j), :), 'LineWidth', 2)
     end
     if indsToPlot(i) == 1 | indsToPlot(i) == 4
         plot(tData, realData(:, indsToPlot(i)), '.', 'Color', [0 0 0], 'MarkerSize', 10)

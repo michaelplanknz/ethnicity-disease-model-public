@@ -23,7 +23,7 @@ eth_names = ["European"; "Māori"; "Pacific"; "Asian"];
 perCapita = true;      
 
 % If true, any previous figure with the same name will be overwritten
-overwriteFig = false;   
+overwriteFig = true;   
 
 % End date for plotting and calculation of cumulative results
 plotToDate = datetime(2023, 6, 30);    

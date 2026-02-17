@@ -88,13 +88,11 @@ for nplots = 1:numel(plot_titles)
         nexttile
         title(letters(i) + ethnicity_names{i})
         hold on
-        for j = 1:numel(scenario_names)
-            if ismember(j, scenariosToPlot)
-                plot(t, min(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
-                plot(t, max(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
-                plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 2)
-                
-            end
+        for j = 1:length(scenariosToPlot)
+            kScenario = scenariosToPlot(j);
+            plot(t, min(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
+            plot(t, max(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
+            plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 2)
         end
 
         % Only plot data for cases (plot 2), admissions (plot 3) and deaths (plot 5), not infections

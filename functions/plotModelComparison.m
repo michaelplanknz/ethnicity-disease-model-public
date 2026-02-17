@@ -32,7 +32,6 @@ realData = [realData(:, 1) sum(realData(:, 3:6), 2) sum(realData(:, 7:10), 2)...
     realData(:, 2) sum(realData(:, 11:14), 2)];
 
 % Rescale to per 100,000 if needed
-
 if perCapita == true
     bandsData = 1e5 * bandsData ./ sum(popCountVector);
     bestFitData = 1e5 * bestFitData ./ sum(popCountVector);
@@ -65,12 +64,7 @@ set(f, 'WindowStyle', 'normal');
 f.Position = [100 100 1000 600];
 tiledlayout(2, 2, 'TileSpacing', 'tight', 'padding', 'tight');
 
-%line_colours = hsv(numel(scenario_names)+1); % use colormap
-%line_colours(1, :) = []; % Remove the first row
-
 line_colours = colororder;
-
-shade_colours = line_colours;
 
 
 % Skip index 4 (hospital occupancy)
@@ -82,7 +76,6 @@ for i = 1:length(indsToPlot)
     hold on
     for j = 1:length(scenariosToPlot)
         kScenario = scenariosToPlot(j);
-        %fill([t, fliplr(t)], [min(bandsData(:, :, indsToPlot(i), j), [], 2); flipud(max(bandsData(:, :, indsToPlot(i), j), [], 2))], "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
         plot(t, min(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(kScenario, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
         plot(t, max(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(kScenario, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
         plot(t, bestFitData(:, indsToPlot(i), kScenario), 'Color', line_colours(kScenario, :), 'LineWidth', 2)

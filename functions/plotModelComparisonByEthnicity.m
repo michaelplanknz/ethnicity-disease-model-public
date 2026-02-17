@@ -56,14 +56,7 @@ end
 smoothDays = [nan, 7, 14, nan, 21];
 tPlotRange = [datetime(2022, 1, 1), plotToDate+1];
 
-%line_colours = hsv(numel(scenario_names)+1); % use colormap
-%line_colours(1, :) = []; % Remove the first row
-% line_colours = hsv(numel(scenario_names)); % use colormap
-% if size(line_colours, 1) == 1
-%     line_colours = [0.5 0 0];
-% end
 line_colours = colororder;
-shade_colours = line_colours;
 
 if perCapita == true
     plot_titles = {'New daily infections per 100,000', 'New daily cases per 100,000', ...
@@ -97,7 +90,6 @@ for nplots = 1:numel(plot_titles)
         hold on
         for j = 1:numel(scenario_names)
             if ismember(j, scenariosToPlot)
-                %fill([t, fliplr(t)], [min(bandsDataByEth(:, :, i, nplots, j), [], 2); flipud(max(bandsDataByEth(:, :, i, nplots, j),[], 2))], "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
                 plot(t, min(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
                 plot(t, max(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
                 plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 2)

@@ -89,7 +89,7 @@ for nplots = 1:numel(plot_titles)
     f = figure;
     set(f, 'WindowStyle', 'normal');
     f.Position = [100*nplots 100 1000 800];
-    tiledlayout(2, ceil(length(ethnicity_names)/2));
+    tiledlayout(2, ceil(length(ethnicity_names)/2), 'TileSpacing', 'tight', 'Padding', 'tight');
     sgtitle(plot_titles(nplots));
 
     for i = 1:length(ethnicity_names)
@@ -98,10 +98,11 @@ for nplots = 1:numel(plot_titles)
         hold on
         for j = 1:numel(scenario_names)
             if ismember(j, scenariosToPlot)
-                fill([t, fliplr(t)], [min(bandsDataByEth(:, :, i, nplots, j), [], 2); ...
-                    flipud(max(bandsDataByEth(:, :, i, nplots, j),[], 2))], ...
-                    "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-                plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 1)
+                %fill([t, fliplr(t)], [min(bandsDataByEth(:, :, i, nplots, j), [], 2); flipud(max(bandsDataByEth(:, :, i, nplots, j),[], 2))], "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
+                plot(t, min(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', '--', 'LineWidth', 1, 'HandleVisibility', 'off')
+                plot(t, max(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', '--', 'LineWidth', 1, 'HandleVisibility', 'off')
+                plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 2)
+                
             end
         end
 
@@ -115,7 +116,7 @@ for nplots = 1:numel(plot_titles)
             elseif nplots == 5
                 first_col_pick = 8;
             end
-            plot(tData, smoothdata(realDataByEth(:, first_col_pick+i), 'movmean', smoothDays(nplots)), '-',  'Color', [0 0 0 0.5], 'LineWidth', 1)
+            plot(tData, smoothdata(realDataByEth(:, first_col_pick+i), 'movmean', smoothDays(nplots)), '-',  'Color', [0 0 0], 'LineWidth', 2)
         end
 
         hold off
@@ -123,7 +124,6 @@ for nplots = 1:numel(plot_titles)
         ylim([0 inf])
         ylabel(yaxis_labels(nplots))
         grid on
-        grid minor
     end
 
     if ismember(nplots, [2 3 5])

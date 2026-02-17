@@ -65,7 +65,7 @@ smoothDays = [nan, 7, 14, 21];
 f = figure;
 set(f, 'WindowStyle', 'normal');
 f.Position = [100 100 1000 600];
-tiledlayout(2, 2, 'TileSpacing', 'tight', 'padding', 'tight');
+tiledlayout(2, 2);
 
 %line_colours = hsv(numel(scenario_names)+1); % use colormap
 %line_colours(1, :) = []; % Remove the first row
@@ -83,15 +83,15 @@ for i = 1:length(indsToPlot)
     title(subplotTitles(i))
     hold on
     for j = 1:numel(scenario_names)
-        %fill([t, fliplr(t)], [min(bandsData(:, :, indsToPlot(i), j), [], 2); flipud(max(bandsData(:, :, indsToPlot(i), j), [], 2))], "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-        plot(t, min(bandsData(:, :, indsToPlot(i), j), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', '--')
-        plot(t, max(bandsData(:, :, indsToPlot(i), j), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', '--')
-        plot(t, bestFitData(:, indsToPlot(i), j), 'Color', line_colours(j, :), 'LineWidth', 2)
+        fill([t, fliplr(t)], [min(bandsData(:, :, indsToPlot(i), j), [], 2); ...
+            flipud(max(bandsData(:, :, indsToPlot(i), j), [], 2))], ...
+            "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
+        plot(t, bestFitData(:, indsToPlot(i), j), 'Color', line_colours(j, :), 'LineWidth', 1)
     end
     if indsToPlot(i) == 1 | indsToPlot(i) == 4
-        plot(tData, realData(:, indsToPlot(i)), '.', 'Color', [0 0 0], 'MarkerSize', 10)
+        plot(tData, realData(:, indsToPlot(i)), '.', 'Color', [0.2 0.2 0.2])
     else
-        plot(tData, smoothdata(realData(:, indsToPlot(i)), 'movmean', smoothDays(i)), '-',  'Color', [0 0 0], 'LineWidth', 2)
+        plot(tData, smoothdata(realData(:, indsToPlot(i)), 'movmean', smoothDays(i)), '-',  'Color', [0 0 0 0.5], 'LineWidth', 1)
     end
 
     hold off
@@ -99,6 +99,7 @@ for i = 1:length(indsToPlot)
     ylim([0 inf])
     ylabel(subplotYaxis(i))
     grid on
+    grid minor
 end
 
 

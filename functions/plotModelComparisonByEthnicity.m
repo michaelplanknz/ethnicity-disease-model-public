@@ -37,8 +37,6 @@ realDataByEth = reshape(sum(realData, 2), size(realData, [1 3])); % collapse ove
 realDataByEth = realDataByEth(:, 3:14); % cut out infection and hospitalisation data, \
 % not broken down by ethnicity
 
-% Get scenariosToPlotnd labels
-
 
 % Write out figure legends
 legend_labels = [scenario_names(scenariosToPlot)', "Data"];
@@ -96,9 +94,9 @@ for nplots = 1:numel(plot_titles)
         hold on
         for j = 1:length(scenariosToPlot)
             kScenario = scenariosToPlot(j);
-            plot(t, min(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
-            plot(t, max(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
-            plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 2)
+            plot(t, min(bandsDataByEth(:, :, i, nplots, kScenario), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
+            plot(t, max(bandsDataByEth(:, :, i, nplots, kScenario), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
+            plot(t, bestFitDataByEth(:, i, nplots, kScenario), 'Color', line_colours(j, :), 'LineWidth', 2)
         end
 
         % Only plot data for cases (plot 2), admissions (plot 3) and deaths (plot 5), not infections
@@ -121,7 +119,7 @@ for nplots = 1:numel(plot_titles)
         grid on
     end
 
-    nexttile(1);
+    nexttile(2);
     if ismember(nplots, [2 3 5])
         leg = legend(legend_labels, 'Interpreter', 'none', 'Location', 'northeast');
     else

@@ -94,7 +94,7 @@ for i = 1:length(indsToPlot)
     grid on
 end
 
-nexttile(1);
+nexttile(2);
 leg = legend(legend_labels, 'Interpreter', 'none', 'Location', 'northeast');
 
 

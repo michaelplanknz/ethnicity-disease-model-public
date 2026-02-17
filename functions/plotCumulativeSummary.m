@@ -22,8 +22,9 @@ nScenarios = numel(scenario_names);
 nEthnicities = numel(ethnicity_names);
 
 % For consistency with other graphs, use colors 1, 2 and 3 for scnearios 1,
-% 4 and 5
-colIndex = [1, 4, 5, 2, 3];
+% 4 and 5, and color 4 for scenario 3 (and hence use color 5 for scenario
+% 2)
+colIndex = [1, 5, 4, 2, 3];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Rescale data to per 100k if perCapita == true

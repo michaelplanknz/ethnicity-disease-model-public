@@ -23,7 +23,7 @@ eth_names = ["European"; "Māori"; "Pacific"; "Asian"];
 perCapita = true;      
 
 % If true, any previous figure with the same name will be overwritten
-overwriteFig = true;   
+overwriteFig = false;   
 
 % End date for plotting and calculation of cumulative results
 plotToDate = datetime(2023, 6, 30);    
@@ -101,11 +101,8 @@ plotModelComparisonByEthnicity(t, bandsData, bestFitData, tData, realData, popBy
 plotModelComparisonAgeSplitByEthnicity(t, bandsData, bestFitData, tData, realData, popCountMatrix10, popByEth, plotToDate, scenario_names, eth_names, overwriteFig, perCapita, figDir);
  
 % Get cumulative tables out at certain date and plot
-[outTab, outTabAge, cumData, cumDataAge, popCountMatrix] = ...
-    cumulativeMetricsByModel(t, bandsData, tData, realData, ...
-    popCountMatrix, plotToDate, scenario_names, eth_names);
+[outTab, outTabAge, cumData, cumDataAge] = cumulativeMetricsByModel(t, bandsData, tData, realData, plotToDate, scenario_names, eth_names);
 
 % Plot results
-plotCumulativeSummary(outTab, outTabAge, cumData, cumDataAge, popCountMatrix10, ...
-    popByEth, overwriteFig, perCapita, figDir);
+plotCumulativeSummary(outTab, outTabAge, cumData, cumDataAge, popCountMatrix10, popByEth, overwriteFig, perCapita, figDir);
 

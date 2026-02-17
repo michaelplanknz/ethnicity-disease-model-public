@@ -18,6 +18,9 @@ function plotModelComparison(t, bandsData, bestFitData, tData, realData, ...
 %   set to true
 
 
+% Subset of scenarios to plot in the next graph (make this 1:nScenarios to
+% plot all of them)
+scenariosToPlot = [1, 4, 5];
 
 % Collapse by age and ethnicity
 
@@ -37,12 +40,7 @@ if perCapita == true
 end
 
 % Write out figure legends
-
-legend_labels = strings(1, 2*numel(scenario_names)+1);
-for j = 1:numel(scenario_names)
-    legend_labels((j*2-1):2*j) = ["", scenario_names(j)]; % append name of scenario
-end
-legend_labels(end) = 'Data';
+legend_labels = [scenario_names(scenariosToPlot)', "Data"];
 
 
 
@@ -70,7 +68,7 @@ tiledlayout(2, 2, 'TileSpacing', 'tight', 'padding', 'tight');
 %line_colours = hsv(numel(scenario_names)+1); % use colormap
 %line_colours(1, :) = []; % Remove the first row
 
-line_colours = hsv(numel(scenario_names)); % use colormap
+line_colours = colororder;
 
 shade_colours = line_colours;
 
@@ -82,11 +80,12 @@ for i = 1:length(indsToPlot)
     nexttile
     title(subplotTitles(i))
     hold on
-    for j = 1:numel(scenario_names)
+    for j = 1:length(scenariosToPlot)
+        kScenario = scenariosToPlot(j);
         %fill([t, fliplr(t)], [min(bandsData(:, :, indsToPlot(i), j), [], 2); flipud(max(bandsData(:, :, indsToPlot(i), j), [], 2))], "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-        plot(t, min(bandsData(:, :, indsToPlot(i), j), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', '--')
-        plot(t, max(bandsData(:, :, indsToPlot(i), j), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', '--')
-        plot(t, bestFitData(:, indsToPlot(i), j), 'Color', line_colours(j, :), 'LineWidth', 2)
+        plot(t, min(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(kScenario, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+        plot(t, max(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(kScenario, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+        plot(t, bestFitData(:, indsToPlot(i), kScenario), 'Color', line_colours(kScenario, :), 'LineWidth', 2)
     end
     if indsToPlot(i) == 1 | indsToPlot(i) == 4
         plot(tData, realData(:, indsToPlot(i)), '.', 'Color', [0 0 0], 'MarkerSize', 10)
@@ -101,9 +100,8 @@ for i = 1:length(indsToPlot)
     grid on
 end
 
-
-leg = legend(legend_labels, 'Interpreter', 'none');
-leg.Layout.Tile = 'South';
+nexttile(1);
+leg = legend(legend_labels, 'Interpreter', 'none', 'Location', 'northeast');
 
 
 % Save figure if it doesn't already exist or if overwrite flag is on

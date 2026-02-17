@@ -35,11 +35,9 @@ realDataByEth = realDataByEth(:, 3:14); % cut out infection and hospitalisation 
 
 % Get scenariosToPlotnd labels
 
-legend_labels = strings(1, 2*numel(scenariosToPlot)+1);
-for j = 1:numel(scenariosToPlot)
-    legend_labels((j*2-1):2*j) = ["", scenario_names(scenariosToPlot(j))]; % append name of scenario
-end
-legend_labels(end) = 'Data';
+
+% Write out figure legends
+legend_labels = [scenario_names(scenariosToPlot)', "Data"];
 
 
 % Rescale to per 100,000 if needed
@@ -60,10 +58,11 @@ tPlotRange = [datetime(2022, 1, 1), plotToDate+1];
 
 %line_colours = hsv(numel(scenario_names)+1); % use colormap
 %line_colours(1, :) = []; % Remove the first row
-line_colours = hsv(numel(scenario_names)); % use colormap
-if size(line_colours, 1) == 1
-    line_colours = [0.5 0 0];
-end
+% line_colours = hsv(numel(scenario_names)); % use colormap
+% if size(line_colours, 1) == 1
+%     line_colours = [0.5 0 0];
+% end
+line_colours = colororder;
 shade_colours = line_colours;
 
 if perCapita == true
@@ -99,8 +98,8 @@ for nplots = 1:numel(plot_titles)
         for j = 1:numel(scenario_names)
             if ismember(j, scenariosToPlot)
                 %fill([t, fliplr(t)], [min(bandsDataByEth(:, :, i, nplots, j), [], 2); flipud(max(bandsDataByEth(:, :, i, nplots, j),[], 2))], "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-                plot(t, min(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', '--', 'LineWidth', 1, 'HandleVisibility', 'off')
-                plot(t, max(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', '--', 'LineWidth', 1, 'HandleVisibility', 'off')
+                plot(t, min(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
+                plot(t, max(bandsDataByEth(:, :, i, nplots, j), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
                 plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 2)
                 
             end
@@ -126,12 +125,12 @@ for nplots = 1:numel(plot_titles)
         grid on
     end
 
+    nexttile(1);
     if ismember(nplots, [2 3 5])
-        leg = legend(legend_labels, 'Interpreter', 'none');
+        leg = legend(legend_labels, 'Interpreter', 'none', 'Location', 'northeast');
     else
-        leg = legend(legend_labels(1:end-1), 'Interpreter', 'none');
+        leg = legend(legend_labels(1:end-1), 'Interpreter', 'none', 'Location', 'northeast');
     end
-    leg.Layout.Tile = 'South';
 
 
     % Save figure if it doesn't already exist or if overwrite flag is on

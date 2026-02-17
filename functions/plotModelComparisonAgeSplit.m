@@ -20,7 +20,7 @@ function plotModelComparisonAgeSplit(t, bandsData, bestFitData, tData, realData,
 % Subset of scenarios to plot in the next graph (make this 1:nScenarios to
 % plot all of them)
 scenariosToPlot = [1, 4, 5];
-colIndex = [1, 3, 4];
+colIndex = [1, 2, 3];
 
 % Set to 1 to plot best fit lines:
 plotBestFit = 1;
@@ -95,8 +95,8 @@ tPlotRange = [datetime(2022, 1, 1), plotToDate+1];
 layer_pick = [1 2 3 5 6]; % choosing correct metrics (not occupancy)
 
 
-line_colours = colororder;
-shade_colours = line_colours;
+tmp = colororder;
+line_colours = tmp(colIndex, :);
 
 f = figure;
 set(f, 'WindowStyle', 'normal');
@@ -117,16 +117,16 @@ for i = 2:numel(subplotYaxis)       % Start at i=2 to omit daily infection incid
             for j = 1:length(scenariosToPlot)
                 kScenario = scenariosToPlot(j);
                 if i < numel(subplotYaxis) % no bands for cumulative infections per capita
-                    plot(t, min(bandsDataAll(:, :, layer_pick(i), kScenario),[], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
-                    plot(t, max(bandsDataAll(:, :, layer_pick(i), kScenario),[], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+                    plot(t, min(bandsDataAll(:, :, layer_pick(i), kScenario),[], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+                    plot(t, max(bandsDataAll(:, :, layer_pick(i), kScenario),[], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
                 end
                 if plotBestFit == 1
-                    h(j) = plot(t, bestFitDataAll(:, layer_pick(i), kScenario), 'Color', line_colours(colIndex(j), :), 'LineWidth', 2);
+                    h(j) = plot(t, bestFitDataAll(:, layer_pick(i), kScenario), 'Color', line_colours(j, :), 'LineWidth', 2);
                     % On the final row of plots (cumulative infectoins),
                     % also plot the 7th 'layer' (which is total first infections
                     % plus reinfections) as dashed lines:
                     if i == numel(subplotYaxis)
-                        plot(t, bestFitDataAll(:, layer_pick(i)+1, kScenario), 'Color', line_colours(colIndex(j), :), 'LineWidth', 2, 'LineStyle', '--');
+                        plot(t, bestFitDataAll(:, layer_pick(i)+1, kScenario), 'Color', line_colours(j, :), 'LineWidth', 2, 'LineStyle', '--');
                     end
                 end
                 h(j).DisplayName = scenario_names(kScenario);
@@ -142,8 +142,8 @@ for i = 2:numel(subplotYaxis)       % Start at i=2 to omit daily infection incid
             for j = 1:length(scenariosToPlot)
                 kScenario = scenariosToPlot(j);
                 if i < numel(subplotYaxis) % no bands for cumulative infections per capita
-                    plot(t, min(bandsDataByAge(:, :, ag, layer_pick(i), kScenario), [], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off');
-                    plot(t, max(bandsDataByAge(:, :, ag, layer_pick(i), kScenario), [], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off');
+                    plot(t, min(bandsDataByAge(:, :, ag, layer_pick(i), kScenario), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off');
+                    plot(t, max(bandsDataByAge(:, :, ag, layer_pick(i), kScenario), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off');
                 end
                 if plotBestFit == 1
                     h(j) = plot(t, bestFitDataByAge(:, ag, layer_pick(i), kScenario), 'Color', line_colours(j, :), 'LineWidth', 2);

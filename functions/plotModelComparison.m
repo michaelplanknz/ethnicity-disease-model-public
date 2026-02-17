@@ -21,7 +21,7 @@ function plotModelComparison(t, bandsData, bestFitData, tData, realData, ...
 % Subset of scenarios to plot in the next graph (make this 1:nScenarios to
 % plot all of them)
 scenariosToPlot = [1, 4, 5];
-colIndex = [1, 3, 4];
+colIndex = [1, 2, 3];
 
 % Collapse by age and ethnicity
 
@@ -65,8 +65,8 @@ set(f, 'WindowStyle', 'normal');
 f.Position = [100 100 1000 600];
 tiledlayout(2, 2, 'TileSpacing', 'tight', 'padding', 'tight');
 
-line_colours = colororder;
-
+tmp = colororder;
+line_colours = tmp(colIndex, :);
 
 % Skip index 4 (hospital occupancy)
 indsToPlot = [1, 2, 3, 5];
@@ -77,9 +77,9 @@ for i = 1:length(indsToPlot)
     hold on
     for j = 1:length(scenariosToPlot)
         kScenario = scenariosToPlot(j);
-        plot(t, min(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
-        plot(t, max(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(colIndex(j), :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
-        plot(t, bestFitData(:, indsToPlot(i), kScenario), 'Color', line_colours(colIndex(j), :), 'LineWidth', 2)
+        plot(t, min(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+        plot(t, max(bandsData(:, :, indsToPlot(i), kScenario), [], 2), 'Color', line_colours(j, :), 'LineWidth', 1, 'LineStyle', ':', 'HandleVisibility', 'off')
+        plot(t, bestFitData(:, indsToPlot(i), kScenario), 'Color', line_colours(j, :), 'LineWidth', 2)
     end
     if indsToPlot(i) == 1 | indsToPlot(i) == 4
         plot(tData, realData(:, indsToPlot(i)), '.', 'Color', [0 0 0], 'MarkerSize', 10)

@@ -21,7 +21,9 @@ ethnicity_names = unique(outTab.ethnicity, 'stable');
 nScenarios = numel(scenario_names);
 nEthnicities = numel(ethnicity_names);
 
-
+% For consistency with other graphs, use colors 1, 2 and 3 for scnearios 1,
+% 4 and 5
+colIndex = [1, 4, 5, 2, 3];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Rescale data to per 100k if perCapita == true
@@ -91,12 +93,14 @@ age_groups = {'0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70+'
 subplotTitles = {'(a) Infections', '(b) Cases', '(c) Admissions', '(d) Deaths'};
 
 % Define a colormap with the desired colors
-colours = parula(numel(scenario_names)); % use colormap
+tmp = colororder;
+colours = tmp(colIndex, :);
+
 
 f = figure;
 set(f, 'WindowStyle', 'normal');
 f.Position = [50 100 1000 800];
-tiledlayout(2, 2);
+tiledlayout(2, 2, 'TileSpacing', 'tight');
 sgtitle(plotTitle);
 xla = reordercats(categorical(ethnicity_names), ["European", "Māori", "Pacific", "Asian"]);
 
@@ -148,7 +152,7 @@ for i = 1:numel(subplotYaxis)
         for iEth = 1:nEthnicities
             % Elements of cumData are [cases for eth1 ... eth4, admissions for eth1 ... eth4, deaths for eth1 ... eth4]
             y = cumData(nEthnicities*(i-2) + iEth);
-            plot([iEth-0.5, iEth+0.5], y*[1 1], 'r--' )
+            plot([iEth-0.5, iEth+0.5], y*[1 1], 'k--', 'LineWidth', 2)
         end
     end
     hold off
@@ -161,7 +165,7 @@ end
 
 % Create a dummy plot for the red dashed line to include in the legend
 hold on
-hData = plot(NaN, NaN, 'r--'); % Invisible placeholder
+hData = plot(NaN, NaN, 'k--', 'LineWidth', 2); % Invisible placeholder
 hold off
 
 % Create legend including scenario names and the real data line
@@ -244,7 +248,7 @@ for nplots = 1:3
         for iEth = 1:nEthnicities
             % Columns of cumDataAge are [cases for eth1 ... eth4, admissions for eth1 ... eth4, deaths for eth1 ... eth4]
             y = cumDataAge(i, nEthnicities*(nplots-1) + iEth);
-            plot([iEth-0.5, iEth+0.5], y*[1 1], 'r--' )
+            plot([iEth-0.5, iEth+0.5], y*[1 1], 'k--' , 'LineWidth', 2)
         end
 
         % Customize the plot
@@ -255,7 +259,7 @@ for nplots = 1:3
 
     % Create a dummy plot for the red dashed line to include in the legend
     hold on
-    hData = plot(NaN, NaN, 'r--'); % Invisible placeholder
+    hData = plot(NaN, NaN, 'k--', 'LineWidth', 2); % Invisible placeholder
     hold off
 
     % Create legend including scenario names and the real data line

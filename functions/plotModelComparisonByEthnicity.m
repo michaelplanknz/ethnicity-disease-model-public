@@ -27,6 +27,10 @@ bestFitData, tData, realData, popByEth, plotToDate, scenario_names, ...
 
 % Now collapse by age
 
+% For consistency with other graphs, use colors 1, 2 and 3 for scnearios 1,
+% 4 and 5
+colIndex = [1, 4, 2, 3];
+
 bandsDataByEth = reshape(sum(bandsData, 3), size(bandsData, [1 2 4 5 6]));
 bestFitDataByEth = reshape(sum(bestFitData, 2), size(bestFitData, [1 3 4 5]));
 realDataByEth = reshape(sum(realData, 2), size(realData, [1 3])); % collapse over age groups
@@ -56,7 +60,9 @@ end
 smoothDays = [nan, 7, 14, nan, 21];
 tPlotRange = [datetime(2022, 1, 1), plotToDate+1];
 
-line_colours = colororder;
+
+tmp = colororder;
+line_colours = tmp(colIndex, :);
 
 if perCapita == true
     plot_titles = {'New daily infections per 100,000', 'New daily cases per 100,000', ...

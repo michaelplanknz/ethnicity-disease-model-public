@@ -18,6 +18,8 @@ sensitivity = false;
 nAgeGroups = 16;
 nEthnicities = 4;
 [popCountMatrix, ethnicityLabels] = getPopData(myDataPath + dataFileNames.popSizeFname, nAgeGroups, nEthnicities); 
+ethnicityLabels(2) = "Māori";
+
 
 % Read Prem matrix
 C = readmatrix(myDataPath + dataFileNames.CMdataFname);

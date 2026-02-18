@@ -28,8 +28,8 @@ bestFitData, tData, realData, popByEth, plotToDate, scenario_names, ...
 % Now collapse by age
 
 % For consistency with other graphs, use colors 1, 2 and 3 for scnearios 1,
-% 4 and 5
-colIndex = [1, 4, 2, 3];
+% 4 and 5 (and color 5 for scenario 3)
+colIndex = [1, 5, 2, 3];
 
 bandsDataByEth = reshape(sum(bandsData, 3), size(bandsData, [1 2 4 5 6]));
 bestFitDataByEth = reshape(sum(bestFitData, 2), size(bestFitData, [1 3 4 5]));

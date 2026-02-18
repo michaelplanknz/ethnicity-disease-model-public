@@ -100,7 +100,7 @@ line_colours = tmp(colIndex, :);
 
 f = figure;
 set(f, 'WindowStyle', 'normal');
-f.Position = [15 80 1810 860];
+f.Position = [ 10          85        1902         860];
 tiledlayout(4, 8, 'TileSpacing', 'compact', 'Padding', 'tight');
 sgtitle(title_pick);
 

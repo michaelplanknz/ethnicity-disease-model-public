@@ -198,7 +198,7 @@ for nplots = 1:3
     f = figure;
     set(f, 'WindowStyle', 'normal');
     f.Position = [100*nplots 100 1000 800];
-    tiledlayout(3, 3, 'tilespacing', 'tight');
+    tiledlayout(3, 3);
     sgtitle(subplotTitles(nplots));
 
     for i = 1:numel(age_groups)

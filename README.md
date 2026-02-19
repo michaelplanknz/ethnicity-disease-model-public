@@ -2,21 +2,28 @@
 
 # 1. Overview
 
-This repository contains the code for the project 'Modelling the transmission and impact of Omicron variants of Covid-19 in different ethnicity groups in Aotearoa New Zealand'.
+This repository contains the code for the project [Modelling the transmission and impact of Omicron variants of Covid-19 in different ethnicity groups in Aotearoa New Zealand](https://arxiv.org/abs/2508.15077).
 
 The model and code build on earlier work modelling Covid-19 in New Zealand that is described in publications by [Lustig et al. (2023)](https://doi.org/10.1098/rsif.2022.0698) and [Datta et al. (2024)](https://doi.org/10.1016/j.vaccine.2024.01.101).
 
 The key advance in the current work is to stratify the population into four ethnicity groups and model different levels of disease transmission and impact across those groups.
 
-A preprint of the article is available [here](https://arxiv.org/abs/2508.15077).
+Information about the structure of the repository and instructions on how to use it are provided below. 
 
+# 2. Version history
 
-Results in this version were produced using the version of this repo tagged 'v1.0'.
+* 20 Aug 2025. [Initial preprint](https://arxiv.org/abs/2508.15077v1). Result in this version were produced using the version of this repo tagged `v1.0`.
+* Updated preprint. Result in this version were produced using the version of this repo tagged `v1.1`.
 
 The code was run using Matlab version 2022b.
 
 
-# 2. Repository structure
+# 3. Abstract
+
+Previous pandemics, including influenza pandemics and Covid-19, have disproportionately impacted Māori and Pacific populations in Aotearoa New Zealand. The reasons for this are multi-faceted, including differences in socioeconomic deprivation, housing conditions and household size, vaccination rates, access to healthcare, and prevalence of pre-existing health conditions. Many mathematical models that were used to inform the response to the Covid-19 pandemic did not explicitly include ethnicity or other socioeconomic variables. This limited their ability to predict, understand and mitigate inequitable impacts of the pandemic. Here, we extend a model that was developed during the Covid-19 pandemic to support the public health response by stratifying the population into four ethnicity groups: Māori, Pacific, Asian and European/other. We include three ethnicity-specific components in the model: vaccination rates, clinical severity parameters, and contact patterns. We compare model results to ethnicity-specific data on Covid-19 cases, hospital admissions and deaths between 1 January 2022 and 30 June 2023, under different model scenarios in which these ethnicity-specific components are present or absent. We find that differences in vaccination rates explain only part of the observed disparities in outcomes. While no model scenario is able to fully capture the heterogeneous temporal dynamics, our results suggest that differences between ethnicities in the per-infection risk of clinical severe disease is an important factor. Our work is an important step towards models that are better able to predict inequitable impacts of future pandemic and emerging disease threats, and investigate the ability of interventions to mitigate these.  
+
+
+# 4. Repository structure
 
 The main script that runs the model is `main.m` in the top level of the repository.
 
@@ -53,7 +60,7 @@ Data was received from Te Whatu Ora on 14 Jan 2025 and this extract was created 
 
 
 
-# 3. How to run the model
+# 5. How to run the model
 
 Set the current directory to the repository's root folder and run the script `main.m`.
 
@@ -76,7 +83,7 @@ The second of these files contains outputs from a set of model trajectories, rep
 
 
 
-# 4. How to make the plots
+# 6. How to make the plots
 
 Run the top-level script `plotGraphs.m`.
 
@@ -93,7 +100,7 @@ These scripts read the relevant data files in from the `data/` folder. The last 
 
 
 
-# 5. Sensitivity analysis on population size data
+# 7. Sensitivity analysis on population size data
 
 To run the model using the Statistics NZ ERP data instead of the HSU population data, set the flag `sensitivity` in `main.m` and in `plotGraphs.m` to true.
 The output file names for this run will be appended with `sensitivity` and the plots will be saved in the `figures/ERP/` subfolder.
@@ -101,7 +108,7 @@ The output file names for this run will be appended with `sensitivity` and the p
 Difference scenarios can be explored by changing the scenario-specific parameters that are returned by the function `getScenarioPars` (see Table of variable names below).
 
 
-# 6. Key variable names and conventions
+# 8. Key variable names and conventions
 
 There are 16 five-year age groups and 4 ethnicity groups.
 

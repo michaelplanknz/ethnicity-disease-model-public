@@ -82,15 +82,14 @@ Run the top-level script `plotGraphs.m`.
 
 This reads in the results generated in the previous step from the `output/` folder, makes a selection of plots, and saves them in the `figures/` folder.
 
-Other graph-plotting scripts that can be run are:
+Other graph-plotting and output-generating scripts that can be run are:
 * plotEpiData.m - plots the data on cases, admissions and deaths by age and ethnicity group.
 * plotVaccineData.m - plots the cumulative number of vaccine doses by age and ethicity group.
+* plotContactMatrices.m - plots heat maps of the extended contact matrices in different scenarios.
+* getPosteriorStats.m - reads in the previously saved paraneter fitting results and produces a table of summary statistics which it saves in the `figures/` folder.
 
-Both of these scripts read the relevant data files in from the `data/` folder.
+These scripts read the relevant data files in from the `data/` folder. The last one also reads in posterior parameter samples from `parameter_fitting_results/`.
 
-To create the contact matrices plot, run `plotContactMatrices.m`.
-
-To produce the table of posterior statistics for fitted paramreters, run `getPosteriorStats.m`.
 
 
 

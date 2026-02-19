@@ -27,19 +27,19 @@ bestFitData, tData, realData, popByEth, plotToDate, scenario_names, ...
 
 % Now collapse by age
 
+% For consistency with other graphs, use colors 1, 2 and 3 for scnearios 1,
+% 4 and 5 (and color 5 for scenario 3)
+colIndex = [1, 5, 2, 3];
+
 bandsDataByEth = reshape(sum(bandsData, 3), size(bandsData, [1 2 4 5 6]));
 bestFitDataByEth = reshape(sum(bestFitData, 2), size(bestFitData, [1 3 4 5]));
 realDataByEth = reshape(sum(realData, 2), size(realData, [1 3])); % collapse over age groups
 realDataByEth = realDataByEth(:, 3:14); % cut out infection and hospitalisation data, \
 % not broken down by ethnicity
 
-% Get scenariosToPlotnd labels
 
-legend_labels = strings(1, 2*numel(scenariosToPlot)+1);
-for j = 1:numel(scenariosToPlot)
-    legend_labels((j*2-1):2*j) = ["", scenario_names(scenariosToPlot(j))]; % append name of scenario
-end
-legend_labels(end) = 'Data';
+% Write out figure legends
+legend_labels = [scenario_names(scenariosToPlot)', "Data"];
 
 
 % Rescale to per 100,000 if needed
@@ -58,13 +58,9 @@ end
 smoothDays = [nan, 7, 14, nan, 21];
 tPlotRange = [datetime(2022, 1, 1), plotToDate+1];
 
-%line_colours = hsv(numel(scenario_names)+1); % use colormap
-%line_colours(1, :) = []; % Remove the first row
-line_colours = hsv(numel(scenario_names)); % use colormap
-if size(line_colours, 1) == 1
-    line_colours = [0.5 0 0];
-end
-shade_colours = line_colours;
+
+tmp = colororder;
+line_colours = tmp(colIndex, :);
 
 if perCapita == true
     plot_titles = {'New daily infections per 100,000', 'New daily cases per 100,000', ...
@@ -89,20 +85,18 @@ for nplots = 1:numel(plot_titles)
     f = figure;
     set(f, 'WindowStyle', 'normal');
     f.Position = [100*nplots 100 1000 800];
-    tiledlayout(2, ceil(length(ethnicity_names)/2));
+    tiledlayout(2, ceil(length(ethnicity_names)/2), 'TileSpacing', 'tight', 'Padding', 'tight');
     sgtitle(plot_titles(nplots));
 
     for i = 1:length(ethnicity_names)
         nexttile
         title(letters(i) + ethnicity_names{i})
         hold on
-        for j = 1:numel(scenario_names)
-            if ismember(j, scenariosToPlot)
-                fill([t, fliplr(t)], [min(bandsDataByEth(:, :, i, nplots, j), [], 2); ...
-                    flipud(max(bandsDataByEth(:, :, i, nplots, j),[], 2))], ...
-                    "", "FaceColor", shade_colours(j, :), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-                plot(t, bestFitDataByEth(:, i, nplots, j), 'Color', line_colours(j, :), 'LineWidth', 1)
-            end
+        for j = 1:length(scenariosToPlot)
+            kScenario = scenariosToPlot(j);
+            plot(t, min(bandsDataByEth(:, :, i, nplots, kScenario), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
+            plot(t, max(bandsDataByEth(:, :, i, nplots, kScenario), [], 2), 'Color', line_colours(j, :), 'LineStyle', ':', 'LineWidth', 1, 'HandleVisibility', 'off')
+            plot(t, bestFitDataByEth(:, i, nplots, kScenario), 'Color', line_colours(j, :), 'LineWidth', 2)
         end
 
         % Only plot data for cases (plot 2), admissions (plot 3) and deaths (plot 5), not infections
@@ -115,7 +109,7 @@ for nplots = 1:numel(plot_titles)
             elseif nplots == 5
                 first_col_pick = 8;
             end
-            plot(tData, smoothdata(realDataByEth(:, first_col_pick+i), 'movmean', smoothDays(nplots)), '-',  'Color', [0 0 0 0.5], 'LineWidth', 1)
+            plot(tData, smoothdata(realDataByEth(:, first_col_pick+i), 'movmean', smoothDays(nplots)), '-',  'Color', [0 0 0], 'LineWidth', 2)
         end
 
         hold off
@@ -123,15 +117,14 @@ for nplots = 1:numel(plot_titles)
         ylim([0 inf])
         ylabel(yaxis_labels(nplots))
         grid on
-        grid minor
     end
 
+    nexttile(2);
     if ismember(nplots, [2 3 5])
-        leg = legend(legend_labels, 'Interpreter', 'none');
+        leg = legend(legend_labels, 'Interpreter', 'none', 'Location', 'northeast');
     else
-        leg = legend(legend_labels(1:end-1), 'Interpreter', 'none');
+        leg = legend(legend_labels(1:end-1), 'Interpreter', 'none', 'Location', 'northeast');
     end
-    leg.Layout.Tile = 'South';
 
 
     % Save figure if it doesn't already exist or if overwrite flag is on

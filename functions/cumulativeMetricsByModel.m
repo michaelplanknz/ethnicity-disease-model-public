@@ -1,22 +1,20 @@
-function [outTab, outTabAge, cumData, cumDataAge, popCountMatrix] = ...
-    cumulativeMetricsByModel(t, bandsData, tData, realData, ...
-    popCountMatrix, finalDate, scenario_names, eth_names)
+function [outTab, outTabAge, cumData, cumDataAge] = cumulativeMetricsByModel(t, bandsData, tData, realData, finalDate, scenario_names, eth_names)
 
 % Function that outputs a table of plots (infections, cases, hospital
 % admissions, hospital occupancy, and deaths), which includes best fit
 % lines, confidence bands and real data.
 
 % INPUTS:
-% - filenameBands: "folder/filename.mat" for bands data
-% - filenameBestFit: "folder/filename.mat" for best fit data
-% - finalDate: datetime variable specifying the end of the time period for calculating cumulative outcomes
-% - dataComb: data for plotting, as output by getAllData.m
-% - scenario_names: vector naming the different runs
-% - perCapita: set to true to get rates per 100k, or false to get absolute numbers
+% t, bandsData, tData, realData, - outputs from function summariseScenarioRuns()
+% finalDate - calculate cumulative outcomes up to this date
+% scenario_names - labels for each scenario
+% eth_names - labels for each ethnicity
 
 % OUTPUTS:
-% - tables for bands, best fit and data
-
+% outTab - table of age-aggregated outcomes (median, lower and upper) for each scenario x ethnicity combination 
+% outTabAge - table of outcomes (median, lower and upper) for each scenario x ethnicity x age combination 
+% cumData - corresponding vector of cumulative age-aggregated outcomes in real data
+% cumDataAge - corresponding matrix of cumulative age-stratified outcomes in real data
 
 
 nEthnicities = numel(eth_names); % extracting number of ethnicities

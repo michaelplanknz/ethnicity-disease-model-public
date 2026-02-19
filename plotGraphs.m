@@ -64,7 +64,6 @@ end
     summariseScenarioRuns(filenameBands, filenameBestFit, dataComb);
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 3. Call plotting functions for each type of graph
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,14 +97,12 @@ scenariosToPlot = [1, 3, 4, 5];
 plotModelComparisonByEthnicity(t, bandsData, bestFitData, tData, realData, popByEth, plotToDate, scenario_names, eth_names, overwriteFig, perCapita, scenariosToPlot, figDir);
 
 % Split by age
-plotModelComparisonAgeSplitByEthnicity(t, bandsData, bestFitData, tData, realData, popCountMatrix10, popByEth, plotToDate, scenario_names, eth_names, overwriteFig, perCapita, figDir);
+% Leaving these plots out for now
+%plotModelComparisonAgeSplitByEthnicity(t, bandsData, bestFitData, tData, realData, popCountMatrix10, popByEth, plotToDate, scenario_names, eth_names, overwriteFig, perCapita, figDir);
  
 % Get cumulative tables out at certain date and plot
-[outTab, outTabAge, cumData, cumDataAge, popCountMatrix] = ...
-    cumulativeMetricsByModel(t, bandsData, tData, realData, ...
-    popCountMatrix, plotToDate, scenario_names, eth_names);
+[outTab, outTabAge, cumData, cumDataAge] = cumulativeMetricsByModel(t, bandsData, tData, realData, plotToDate, scenario_names, eth_names);
 
 % Plot results
-plotCumulativeSummary(outTab, outTabAge, cumData, cumDataAge, popCountMatrix10, ...
-    popByEth, overwriteFig, perCapita, figDir);
+plotCumulativeSummary(outTab, outTabAge, cumData, cumDataAge, popCountMatrix10, popByEth, overwriteFig, perCapita, figDir);
 

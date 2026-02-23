@@ -12,8 +12,8 @@ Information about the structure of the repository and instructions on how to use
 
 # 2. Version history
 
-* 20 Aug 2025. [Initial preprint](https://arxiv.org/abs/2508.15077v1). Result in this version were produced using the version of this repo tagged `v1.0`.
-* Updated preprint. Result in this version were produced using the version of this repo tagged `v1.1`.
+* 20 Aug 2025. [Initial preprint](https://arxiv.org/abs/2508.15077v1). Results in this version were produced using the version of this repo tagged `v1.0`.
+* 25 Feb 2026. [Updated preprint](https://arxiv.org/abs/2508.15077v2). Results in this version were produced using the version of this repo tagged `v1.1`.
 
 The code was run using Matlab version 2022b.
 
